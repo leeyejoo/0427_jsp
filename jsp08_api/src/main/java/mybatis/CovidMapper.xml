@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="CovidMapper">
+ 	<insert id="insert">
+ 		INSERT INTO covid (seq,stateDt,stateTime,deathCnt,decideCnt,createDt,updateDt)
+		VALUES (#{seq}, #{stateDt},#{stateTime}, #{deathCnt}, #{decideCnt}, #{createDt},#{updateDt})
+
+ 	</insert>
+
+	<select id="selectList" resultType="dto.Covid">
+		SELECT covid.*, 
+               decideCnt - LAG(decideCnt) OVER(ORDER BY stateDt ) dailyDecideCnt
+		FROM covid
+		WHERE stateDt BETWEEN #{startDt} AND #{endDt}
+	
+	</select>
+	
+	
+	<update id="update" >
+		UPDATE covid
+		SET stateDt=#{stateDt},
+		    stateTime=#{stateTime},
+		    deathCnt=#{deathCnt},
+		    decideCnt=#{decideCnt},
+		    createDt=#{createDt},
+		    updateDt=#{updateDt}
+		WHERE seq =#{seq}
+	</update>
+ </mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="AirPMMapper">
+ 	<insert id="insert">
+ 		INSERT INTO airPM
+		VALUES (#{sn},#{dataDate},#{issueTime},#{districtName},#{moveName},#{itemCode},#{issueVal},#{issueGbn})
+ 		
+ 	</insert>
+ 	
+ 	<update id="update">
+ 		UPDATE airPM
+		SET dataDate = #{dataDate},
+      		issueTime =#{issueTime},
+    		districtName=#{districtName},
+		    moveName= #{moveName},
+ 		    itemCode= #{itemCode},
+  		  	issueVal= #{issueVal},
+    		issueGbn= #{issueGbn}
+		WHERE sn=#{sn}
+ 	</update>
+ 	
+ 	<select id="seletList" resultType="dto.AirPM">
+ 		SELECT * FROM airPM
+		WHERE SUBSTR(dataDate,1,4) = #{year}
+		ORDER BY sn
+ 	</select>
+ </mapper>
